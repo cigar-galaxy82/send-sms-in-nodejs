@@ -1,8 +1,7 @@
 import { SuperfaceClient } from "@superfaceai/one-sdk";
-
 const sdk = new SuperfaceClient();
 
-async function run() {
+async function run(apiSecret, apiKey, phone1, phone2) {
   // Load the profile
   const profile = await sdk.getProfile('communication/send-sms@2.0.1');
 
@@ -10,17 +9,17 @@ async function run() {
   const result = await profile
     .getUseCase('SendMessage')
     .perform({
-      to: '+12127290149',//You need to get this number verified
-      from: '+4915207955279',//You need to get this number verified
+      to: phone1,//this is a dummy number
+      from: phone2,//this is a dummy number
       text: 'Your order is ready to be picked up!'
     }, {
       provider: 'vonage-nexmo',
       parameters: {
-        apiSecret: 'Pg5iDkhk7Azamywh'
+        apiSecret: apiSecret
       },
       security: {
         apiKey: {
-          apikey: '45d883c6'
+          apikey: apiKey
         }
       }
     });
@@ -34,4 +33,9 @@ async function run() {
   }
 }
 
-run();
+const apiSecret = 'Pg5iDkhk7Azamywh'
+const apiKey = '45d883c6'
+const phone1 = '+12127290149'
+const phone2 = '+4915207955279'
+
+run(apiSecret, apiKey, phone1, phone2);
